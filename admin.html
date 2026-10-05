@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Dashboard</title>
+<style>
+:root{--bg:#f4f6fa;--c:#fff;--t:#14161f;--m:#6b7080;--a:#0b4fb3;--a2:#0b4fb3;--b:#e3e8f2;--sb:#0b0b10;--sh:0 6px 22px rgba(20,22,40,.08);--gr:#0b4fb3;--gr2:#0b4fb3}
+@media(prefers-color-scheme:dark){:root{--a:#4d8dff;--a2:#4d8dff;--gr:#2f6fe0;--gr2:#2f6fe0;--bg:#0c0e14;--c:#171821;--t:#f1f1f5;--m:#9a9db0;--b:#2a2c3a;--sb:#050508;--sh:0 8px 26px rgba(0,0,0,.45)}}
+a{color:var(--a);font-weight:600}*{box-sizing:border-box}body{margin:0;font:14px/1.45 "Segoe UI",system-ui,Arial,sans-serif;background:var(--bg);color:var(--t)}
+button,select,input,textarea{font:inherit;padding:8px 12px;border:1px solid var(--b);border-radius:10px;background:var(--c);color:var(--t);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(11,79,179,.25)}
+button{cursor:pointer;transition:.15s}button:hover{transform:translateY(-1px)}button.p{background:var(--gr);color:#fff;border:0;font-weight:600;box-shadow:0 4px 14px rgba(11,79,179,.30)}button.p:hover{box-shadow:0 6px 18px rgba(11,79,179,.45)}
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0b0b10}
+.lg{width:92%;max-width:360px;background:var(--c);border-radius:20px;border-top:6px solid #0b4fb3;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.35);text-align:center}
+.lg .ic{font-size:40px;margin-bottom:6px}.lg h2{margin:0 0 4px}.lg input{width:100%;margin:14px 0 10px;text-align:center;font-size:16px}.lg button{width:100%;padding:11px}
+#le{color:#e5484d;min-height:20px;margin:10px 0 0;font-size:13px}
+#app{display:flex;min-height:100vh}aside{width:230px;background:#0b0b10;color:#d9dcec;padding:20px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px}
+aside .lo{font-size:18px;font-weight:700;color:#fff;margin:0 8px 18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.15)}aside .lo small{display:block;font-weight:400;color:#8d97b3;font-size:12px}
+#tabs{display:flex;flex-direction:column;gap:4px}#tabs button{background:transparent;border:0;color:#b5bddb;text-align:left;padding:11px 12px;border-radius:12px}
+#tabs button:hover{background:rgba(255,255,255,.07)}#tabs button.on{background:var(--gr);color:#fff;font-weight:700;box-shadow:0 4px 14px rgba(11,79,179,.35)}
+#te,#lo2{margin-top:8px;padding:12px;border-radius:10px;cursor:pointer;background:rgba(255,255,255,.12);border:0;color:#fff;font-weight:600}#rf{margin-top:auto;background:var(--gr2);border:0;color:#fff;font-weight:600}
+main{flex:1;padding:24px;max-width:1250px;min-width:0;position:relative}main:before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:var(--a)}h3{margin:0 0 14px;padding-bottom:8px;border-bottom:3px solid var(--a)}
+.card{background:var(--c);border:1px solid var(--b);border-top:3px solid var(--a);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:var(--sh)}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:16px}.g .card{margin:0}
+.kp{position:relative;overflow:hidden}.kp:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--a)}
+.k{font-size:30px;font-weight:800;margin-top:4px;color:var(--a)}.m{color:var(--m)}.w{overflow-x:auto}
+table{border-collapse:collapse;width:100%}th{color:var(--a);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.4px}td,th{padding:10px 8px;border-bottom:1px solid var(--b);text-align:left;white-space:nowrap}tr:hover td{background:rgba(11,79,179,.05)}
+.pill{padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600}.s-New{background:#e8eefb;color:#0b4fb3}.s-Confirmed{background:#dbe8ff;color:#0b4fb3}.s-Cancelled{background:#fde2e2;color:#c0392b}
+td button{padding:5px 8px;margin-right:2px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.cal div{background:var(--bg);border-radius:12px;padding:8px;min-height:62px;cursor:pointer;border:1px solid transparent}.cal div:hover{border-color:var(--a)}.cal .h{min-height:0;text-align:center;cursor:default;color:var(--m);background:none}
+.n{background:var(--gr);color:#fff;border-radius:10px;padding:1px 7px;font-size:12px}textarea{width:100%;min-height:80px}
+@media(max-width:800px){#app{flex-direction:column}aside{width:100%;height:auto;position:static;flex-direction:row;flex-wrap:wrap;align-items:center;padding:10px}aside .lo{margin:0 10px 0 4px}#tabs{flex-direction:row;overflow-x:auto;max-width:100%}#rf{margin:0}main{padding:12px}}
+</style></head><body>
+<div id="login"><div class="lg"><div class="ic">🔐</div><h2>Admin Panel</h2><div class="m">Indus Delta &amp; Edvisa Bookings</div><input id="pw" type="password" placeholder="Enter admin code"><button class="p" id="go">Login</button><p id="le"></p></div></div>
+<div id="app" style="display:none"><aside><div class="lo">⚙️ Admin Panel<small>Appointments Manager</small></div><div id="tabs"></div><button id="rf">↻ Refresh</button><button id="te" class="sb">📧 Test Email</button><button id="lo2" class="sb">🚪 Logout</button></aside><main id="v"></main></div>
+<script>
+var URL_="https://script.google.com/macros/s/AKfycbyR6B2CnS0U09uQp714ae6e2RFWkQOKaMW4uD93TA87ZAC-gBLPMQ83L4VO4dKpPOi8/exec";
+var $=function(i){return document.getElementById(i)},PW="",D={rows:[],staff:[],tpl:null},tab="Dashboard",F={q:"",st:"",d:""},TP=0;
+var IC={Dashboard:"📊",Calendar:"📅",Appointments:"🗂️",Reports:"📈",Staff:"👨‍💼",Templates:"💬",Message:"✉️"};var TABS=["Dashboard","Calendar","Appointments","Reports","Staff","Templates","Message"];
+var DEF=[{n:"Confirmation",t:"Dear {name}, your appointment for {service} with {brand} is confirmed on {date} at {time}.\n📍 Office: Amber Pride, Office No 204, 2nd Floor, Main Shahrah-e-Faisal, Block 6, P.E.C.H.S., Karachi\nThank you."},{n:"Reminder",t:"Dear {name}, reminder: your appointment with {brand} is on {date} at {time}.\n📍 Office: Amber Pride, Office No 204, 2nd Floor, Main Shahrah-e-Faisal, Block 6, P.E.C.H.S., Karachi"},{n:"Reschedule",t:"Dear {name}, your appointment with {brand} has been rescheduled to {date} at {time}.\n📍 Office: Amber Pride, Office No 204, 2nd Floor, Main Shahrah-e-Faisal, Block 6, P.E.C.H.S., Karachi"},{n:"Short Message",t:"Dear {name}, we have received your request. Our team will contact you shortly."}];
+function esc(v){return String(v==null?"":v).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function busy(on,m){var e=document.getElementById("tt");if(!e){e=document.createElement("div");e.id="tt";e.style.cssText="position:fixed;top:12px;left:50%;transform:translateX(-50%);background:#0b4fb3;color:#fff;padding:10px 22px;border-radius:30px;font-weight:600;z-index:9999;box-shadow:0 4px 14px #0004";document.body.appendChild(e)}e.textContent=m||"⏳ Please wait...";e.style.display=on?"block":"none"}
+function api(o,cb){o.pw=PW;busy(o.action!=="list"||!!PW);fetch(URL_,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(o)}).then(function(r){return r.json()}).then(function(j){busy(false);if(!j.ok){if(PW&&j.error!=="Wrong password")alert("Error: "+(j.error||"unknown"));$("le").textContent=j.error==="Invalid brand"?"Server purana hai: naya Code.gs paste karke New version deploy karein":j.error==="Wrong password"?"Galat admin code":(j.error||"Error");if(!PW||j.error==="Wrong password"){$("app").style.display="none";$("login").style.display="block"}return}D=j;var ob=document.getElementById("oldsrv");if(!ob){ob=document.createElement("div");ob.id="oldsrv";ob.style.cssText="background:#c0392b;color:#fff;padding:12px 16px;font-weight:700;position:sticky;top:0;z-index:9998";document.body.insertBefore(ob,document.body.firstChild)}if(j.mailSent===false){alert("⚠ Email NAHI gayi: "+j.mailErr+"\n\nDetail: Google Sheet ke \"Email Log\" tab mein.")}else if(j.mailSent===true){busy(true,"✔ Email bheji gayi");setTimeout(function(){busy(false)},2500)}if(j.ver!=="v6"){ob.style.display="block";ob.textContent="⚠ Server purana hai (Code.gs update nahi hua). Naya Code.gs paste karein, phir Deploy > Manage deployments > pencil > New version > Deploy."}else ob.style.display="none";if(!D.tpl)D.tpl=DEF;else DEF.forEach(function(q){if(!D.tpl.some(function(t){return t.n===q.n}))D.tpl.push({n:q.n,t:q.t})});$("login").style.display="none";$("app").style.display="flex";draw();cb&&cb()}).catch(function(){busy(false);if(PW)alert("Network error - dobara try karein");$("le").textContent="Network error"})}
+$("go").onclick=function(){PW=$("pw").value;$("le").textContent="Loading...";api({action:"list"})};$("rf").onclick=function(){api({action:"list"})};
+function iso(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+var today=iso(new Date()),tom=iso(new Date(Date.now()+864e5));
+var NOTE={edvisa:"Thank you for choosing Edvisa & Immigrations - your trusted study & immigration partner.",travel:"Thank you for choosing Indus Delta Travels & Tours - wishing you a pleasant journey."};
+function addNote(t,b){var n=NOTE[b];return(!n||t.indexOf(n)>=0)?t:t+"\n\n"+n}
+function nt(t){var m=String(t||"").trim().match(/^(\d{1,2})(?:[:.]?(\d{2}))?\s*([ap])\.?m?\.?$/i);if(!m)return"";var h=+m[1];if(h<1||h>12)return"";return h+":"+(m[2]||"00")+" "+m[3].toUpperCase()+"M"}
+function askTime(p){var t,n;while(true){t=prompt(p);if(t===null)return"";n=nt(t);if(n)return n;p="AM ya PM ke saath likhein, e.g. 7:00 PM"}}
+function cnt(f){return D.rows.filter(f).length}
+function wa(r,i){var dt=r.Date||prompt("Date (YYYY-MM-DD):")||"-",tm=r.Time||askTime("Time with AM/PM (e.g. 7:00 PM):")||"-";var t=D.tpl[i].t.replace(/{name}/g,r.Name).replace(/{service}/g,r.Service).replace(/{date}/g,dt).replace(/{time}/g,tm).replace(/{brand}/g,r.Brand==="travel"?"Indus Delta Travels":"Edvisa & Immigrations");t=addNote(t,r.Brand);
+ var n=r.Phone.replace(/\D/g,"");if(n[0]==="0")n="92"+n.slice(1);window.open("https://wa.me/"+n+"?text="+encodeURIComponent(t),"_blank")}
+function upd(id,f,note){api({action:"update",id:id,fields:f,notify:note||""})}
+function setSt(id,s){var r=D.rows.filter(function(x){return String(x.ID)===String(id)})[0],f={Status:s};if(!r){alert("Record nahi mila - Refresh dabayein");return}
+ if(s==="Cancelled"&&!confirm("Cancel appointment of "+r.Name+"? Client ko email/WhatsApp bhi jayega."))return;
+ if(s==="Confirmed"){if(!r.Date){var d0=prompt("Date for this appointment (YYYY-MM-DD):");if(d0)f.Date=d0}if(!r.Time){var t0=askTime("Time with AM/PM (e.g. 7:00 PM):");if(t0)f.Time=t0}}
+ upd(id,f,s==="Confirmed"?"Your appointment is confirmed. Details are below.":s==="Cancelled"?"Your appointment has been cancelled. Please contact us to rebook.":"")}
+function resch(id){var d=prompt("New date (YYYY-MM-DD):");if(!d)return;var t=askTime("New time with AM/PM (e.g. 7:00 PM):");if(!t)return;upd(id,{Date:d,Time:t,Status:"Confirmed"},"Your appointment has been rescheduled. Updated details are below.")}
+function tbl(rows){var h="<div class='w'><table><tr><th>Date</th><th>Time</th><th>Client</th><th>Phone</th><th>Service</th><th>Brand</th><th>Status</th><th>Staff</th><th>Actions</th></tr>";
+ rows.forEach(function(r){var so="<option value=''>-</option>"+D.staff.map(function(s){return"<option"+(s===r.Staff?" selected":"")+">"+esc(s)+"</option>"}).join("");
+ h+="<tr><td>"+esc(r.Date||"-")+"</td><td>"+esc(r.Time||"-")+"</td><td>"+esc(r.Name)+"</td><td>"+esc(r.Phone)+"</td><td>"+esc(r.Service)+"</td><td>"+(r.Brand==="travel"?"Indus":"Edvisa")+"</td><td><span class='pill s-"+esc(r.Status)+"'>"+esc(r.Status)+"</span></td><td><select onchange=\"upd('"+r.ID+"',{Staff:this.value})\">"+so+"</select></td><td>"+
+ "<button onclick=\"VW='"+r.ID+"';draw();scrollTo(0,0)\">👁</button> <button onclick=\"setSt('"+r.ID+"','Confirmed')\">✔</button> <button onclick=\"setSt('"+r.ID+"','Cancelled')\">✖</button> <button onclick=\"resch('"+r.ID+"')\">✏️</button> <button onclick=\"wa(D.rows.filter(function(x){return x.ID==='"+r.ID+"'})[0],TP)\">💬</button></td></tr>"});
+ return h+"</table></div>"+(rows.length?"":"<p class='m'>No appointments.</p>")}
+function sortR(a){return a.slice().sort(function(x,y){return(x.Date+x.Time)<(y.Date+y.Time)?-1:1})}
+function stat(r){var m={};r.forEach(function(x){m[x.Status]=(m[x.Status]||0)+1});return Object.keys(m).map(function(k){return k+": "+m[k]}).join(" | ")||"-"}
+function by(r,k){var m={};r.forEach(function(x){var v=x[k]||"-";m[v]=(m[v]||0)+1});return Object.keys(m).map(function(v){return"<tr><td>"+esc(v)+"</td><td>"+m[v]+"</td></tr>"}).join("")}
+function draw(){$("tabs").innerHTML=TABS.map(function(t){return"<button class='"+(t===tab?"on":"")+"' onclick=\"tab='"+t+"';draw()\">"+IC[t]+" "+t+"</button>"}).join("");var v=$("v"),h="";
+ if(tab==="Dashboard"){var mo=today.slice(0,7);h="<div class='g'>"+[["Today",cnt(function(r){return r.Date===today})],["Tomorrow",cnt(function(r){return r.Date===tom})],["New / Pending",cnt(function(r){return r.Status==="New"})],["This Month",cnt(function(r){return(r.Date||r.Created).slice(0,7)===mo})],["Total",D.rows.length]].map(function(x){return"<div class='card kp'><div class='m'>"+x[0]+"</div><div class='k'>"+x[1]+"</div></div>"}).join("")+"</div><div class='card'><h3>Today</h3>"+tbl(sortR(D.rows.filter(function(r){return r.Date===today})))+"</div><div class='card'><h3>New requests</h3>"+tbl(D.rows.filter(function(r){return r.Status==="New"}).slice(-15))+"</div>"}
+ if(tab==="Calendar"){var n=new Date(),y=n.getFullYear(),mth=n.getMonth()+CM,d0=new Date(y,mth,1),dim=new Date(y,mth+1,0).getDate();h="<div class='card'><button onclick='CM--;draw()'>◀</button> <b>"+d0.toLocaleString("en",{month:"long",year:"numeric"})+"</b> <button onclick='CM++;draw()'>▶</button><div class='cal' style='margin-top:10px'>"+["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(function(x){return"<div class='h'>"+x+"</div>"}).join("");for(var i=0;i<d0.getDay();i++)h+="<div class='h'></div>";
+  for(var d=1;d<=dim;d++){var k=iso(new Date(y,mth,d)),c=cnt(function(r){return r.Date===k});h+="<div onclick=\"F.d='"+k+"';tab='Appointments';draw()\">"+d+(c?" <span class='n'>"+c+"</span>":"")+"</div>"}h+="</div></div>"}
+ if(tab==="Appointments"){var r=D.rows.filter(function(x){var q=F.q.toLowerCase();return(!q||(x.Name+x.Phone+x.Email).toLowerCase().indexOf(q)>=0)&&(!F.st||x.Status===F.st)&&(!F.d||x.Date===F.d)});
+  h="<div class='card'><input id='q' placeholder='🔎 Search name / phone / email' value='"+esc(F.q)+"' oninput='F.q=this.value;draw();$(\"q\").focus()'> <select onchange='F.st=this.value;draw()'><option value=''>All status</option>"+["New","Confirmed","Cancelled"].map(function(s){return"<option"+(F.st===s?" selected":"")+">"+s+"</option>"}).join("")+"</select> <input type='date' value='"+F.d+"' onchange='F.d=this.value;draw()'> <button onclick=\"F={q:'',st:'',d:''};draw()\">Clear</button> WhatsApp template: <select onchange='TP=this.value'>"+D.tpl.map(function(t,i){return"<option value='"+i+"'"+(i==TP?" selected":"")+">"+esc(t.n)+"</option>"}).join("")+"</select></div><div class='card'>"+tbl(sortR(r))+"</div>"}
+ if(tab==="Reports"){var dr=D.rows.filter(function(x){return x.Date===RD}),mr=D.rows.filter(function(x){return(x.Date||"").slice(0,7)===RM});
+  function blk(t,r){return"<div class='card'><h3>"+t+" ("+r.length+")</h3><p>"+stat(r)+"</p><div class='g'><div><b>By service</b><table>"+by(r,"Service")+"</table></div><div><b>By staff</b><table>"+by(r,"Staff")+"</table></div></div></div>"}
+  h="<div class='card'>Day: <input type='date' value='"+RD+"' onchange='RD=this.value;draw()'> Month: <input type='month' value='"+RM+"' onchange='RM=this.value;draw()'> <button class='p' onclick='csv()'>⬇ Download CSV (all)</button></div>"+blk("Daily "+RD,dr)+blk("Monthly "+RM,mr)}
+ if(tab==="Staff"){h="<div class='card'><h3>Staff / Consultants</h3>"+D.staff.map(function(s,i){return"<p>"+esc(s)+" <button onclick='D.staff.splice("+i+",1);api({action:\"saveStaff\",data:D.staff})'>Remove</button></p>"}).join("")+"<input id='ns' placeholder='New staff name'> <button class='p' onclick='var n=$(\"ns\").value.trim();if(n){D.staff.push(n);api({action:\"saveStaff\",data:D.staff})}'>Add</button><p class='m'>Assign staff to an appointment from the Appointments tab.</p></div>"}
+ if(tab==="Templates"){h="<div class='card'><h3>WhatsApp Templates</h3><p class='m'>Use {name} {service} {date} {time} {brand}</p>"+D.tpl.map(function(t,i){return"<p><b>"+esc(t.n)+"</b><textarea id='t"+i+"'>"+esc(t.t)+"</textarea></p>"}).join("")+"<button class='p' onclick='D.tpl.forEach(function(t,i){t.t=$(\"t\"+i).value});api({action:\"saveTpl\",data:D.tpl})'>Save templates</button></div>"}
+
+ if(tab==="Message"){var seen={},dl="";D.rows.forEach(function(r){var k=norm(r.Phone);if(!seen[k]){seen[k]=1;dl+="<option value='"+esc(r.Name+" – "+r.Phone)+"'></option>"}});
+  h="<div class='card'><h3>✉️ Send Message to Client</h3><p class='m'>Client ka number likhein (ya list se chunein), template chunein ya khud likhein, phir Send dabayein. WhatsApp khulega aur message pehle se likha hoga.</p>"+
+  "<p><b>1️⃣ Pehle client select karein</b><br><input id='mc' list='cl' placeholder='🔎 Client ka NAAM likhein ya list se chunein' style='width:100%;max-width:340px' onchange='pickC()'><datalist id='cl'>"+dl+"</datalist><br><input id='mn' placeholder='Number (naam chunne par khud bhar jata hai)' style='width:100%;max-width:340px;margin-top:6px' onchange='mfill()'></p>"+
+  "<p><b>2️⃣ Nayi date &amp; time</b> (reschedule ke liye)<br><input id='md' type='date' title='Date' oninput='mfill()' style='width:100%;max-width:165px'> <input id='mtm' placeholder='Time e.g. 7:00 PM' oninput='mfill()' style='width:100%;max-width:165px'></p>"+
+  "<p><b>3️⃣ Message template</b><br><select id='mt' onchange='mfill()'><option value=''>Custom message</option>"+D.tpl.map(function(t,i){return"<option value='"+i+"'>"+esc(t.n)+"</option>"}).join("")+"</select></p>"+
+  "<p><input id='me' placeholder='Client email (for automatic email)' style='width:100%;max-width:340px'></p><p><textarea id='mm' placeholder='Type your message...'></textarea></p>"+
+  "<button class='p' onclick='mresch()'>🔁 Reschedule &amp; Notify Client</button> <button class='p' onclick='msend(\"wa\")'>💬 Send on WhatsApp</button> <button class='p' onclick='mauto()'>🤖 Send Automatically (WhatsApp)</button> <button onclick='mmail()'>📧 Send Email (auto)</button> <button onclick='msend(\"sms\")'>📩 Send as SMS</button> <button onclick='navigator.clipboard&&navigator.clipboard.writeText($(\"mm\").value)'>📋 Copy</button></div>"}
+ var bn="<p class='m' style='margin:0 0 12px'>Saved bookings: <b>"+D.rows.length+"</b> · <a href='"+esc(D.sheet||"#")+"' target='_blank'>📄 Open Google Sheet</a></p>"+(D.err?"<div class='card' style='border-color:#e5484d'>⚠️ Last booking save error: "+esc(D.err)+"</div>":"")+(D.rows.length?"":"<div class='card'>Abhi koi booking save nahi hui. Website se ek test booking karein, phir ↻ Refresh dabayein.</div>");
+ v.innerHTML=bn+vc()+h}
+function norm(n){n=String(n||"").replace(/\D/g,"");if(n[0]==="0")n="92"+n.slice(1);return n}
+function pickC(){var v=$("mc").value.trim(),n=norm(v.split("–").pop()),r=findR(n);
+ if(!r){var q=v.toLowerCase(),m=D.rows.filter(function(x){return String(x.Name).toLowerCase()===q});r=m[m.length-1]}
+ if(!r){$("mn").value=/\d{7,}/.test(v)?v.replace(/[^\d+]/g,""):"";return}
+ $("mn").value=r.Phone;$("me").value=r.Email||"";mfill()}
+function findR(n){var m=D.rows.filter(function(x){return norm(x.Phone)===n});return m[m.length-1]}
+function mresch(){var n=norm($("mn").value),r=findR(n);
+ if(!r){alert("Pehle client select karein (list se number chunein)");return}
+ var d=$("md").value,t=nt($("mtm").value);
+ if(!d){alert("Nayi date chunein");return}
+ if(new Date(d+"T00:00:00").getDay()===0){alert("Sunday band hai, doosri date chunein");return}
+ if(!t){alert("Time AM/PM ke saath likhein, e.g. 7:00 PM");return}
+ if(!confirm("Reschedule "+r.Name+" to "+d+" at "+t+" ?\nClient ko email aur (agar set ho to) WhatsApp jayega."))return;
+ api({action:"update",id:r.ID,fields:{Date:d,Time:t,Status:"Confirmed"},notify:"Your appointment has been rescheduled to "+d+" at "+t+". Updated details are below."},function(){
+  var ix=-1;D.tpl.forEach(function(x,i){if(x.n==="Reschedule")ix=i});
+  $("mc").value=r.Name+" – "+r.Phone;$("mn").value=r.Phone;$("md").value=d;$("mtm").value=t;$("me").value=r.Email||"";if(ix>=0){$("mt").value=ix;mfill()}
+  alert("Rescheduled ✓ "+r.Name+" -> "+d+" at "+t+".\nEmail bhej di gayi. WhatsApp ke liye neeche '💬 Send on WhatsApp' dabayein.")})}
+function mfill(){var i=$("mt").value;if(i==="")return;var n=norm($("mn").value),r=findR(n)||{};
+ var b=r.Brand==="travel"?"Indus Delta Travels":r.Brand==="edvisa"?"Edvisa & Immigrations":"our office";
+ var dt=$("md").value||"(date)",tm=nt($("mtm").value)||$("mtm").value||"(time)";
+ $("me").value=r.Email||$("me").value;$("mm").value=addNote(D.tpl[i].t.replace(/{name}/g,r.Name||"Sir/Madam").replace(/{service}/g,r.Service||"your request").replace(/{date}/g,dt).replace(/{time}/g,tm).replace(/{brand}/g,b),r.Brand)}
+function mauto(){var n=norm($("mn").value),t=$("mm").value.trim();if(n.length<11){alert("Sahi client number likhein");return}if(!t){alert("Message likhein");return}
+ api({action:"wamsg",to:n,text:t},function(){alert(D.wa?"WhatsApp message sent ✓":"Auto WhatsApp abhi set nahi hai (Code.gs mein WA_GATEWAY bharein). Abhi ke liye 💬 button use karein.")})}
+function mmail(){var e=$("me").value.trim(),t=$("mm").value.trim(),n=norm($("mn").value),r=findR(n)||{};if(!/^\S+@\S+\.\S+$/.test(e)){alert("Sahi client email likhein");return}if(!t){alert("Message likhein");return}
+ api({action:"mail",to:e,subject:"Message from "+(r.Brand==="travel"?"Indus Delta Travels":"Edvisa & Immigrations"),text:t,brand:r.Brand||"edvisa"},function(){alert("Email sent ✓")})}
+function msend(k){var n=norm($("mn").value),t=$("mm").value.trim();if(n.length<11){alert("Sahi client number likhein");return}if(!t){alert("Message likhein");return}
+ window.open(k==="wa"?"https://wa.me/"+n+"?text="+encodeURIComponent(t):"sms:+"+n+"?body="+encodeURIComponent(t),"_blank")}
+function vc(){var r=D.rows.filter(function(x){return x.ID===VW})[0];if(!r)return"";var n=r.Brand==="travel"?"Indus Delta Travels & Tours (Pvt) Ltd":"Edvisa & Immigrations (Pvt) Ltd";
+ var L=[["Service",r.Service],["Name",r.Name],["Phone",r.Phone],["Email",r.Email],["Date",r.Date],["Time",r.Time],["Meeting",r.Meeting],["Meeting Mode",r.Mode],["Departure City",r.Departure],["Country",r.Country],["Message",r.Message],["Status",r.Status]].filter(function(x){return x[1]&&x[1]!=="-"});
+ VT="New Appointment Request – "+n+"\n\n"+L.map(function(x){return x[0]+": "+x[1]}).join("\n");
+ return"<div class='card'><pre style='white-space:pre-wrap;margin:0 0 12px;font:inherit'>"+esc(VT)+"</pre><button class='p' onclick='navigator.clipboard&&navigator.clipboard.writeText(VT)'>📋 Copy</button> <button onclick=\"wa(D.rows.filter(function(x){return x.ID===VW})[0],TP)\">💬 Reply on WhatsApp</button> <button onclick=\"VW='';draw()\">✖ Close</button></div>"}
+var VW="",VT="",CM=0,RD=today,RM=today.slice(0,7);
+function csv(){var c=["ID","Date","Time","Name","Phone","Email","Brand","Service","Mode","Country","Status","Staff","Message"];var t=c.join(",")+"\n"+D.rows.map(function(r){return c.map(function(k){return'"'+String(r[k]||"").replace(/"/g,'""')+'"'}).join(",")}).join("\n");var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/csv"}));a.download="appointments.csv";a.click()}
+</script><script>
+/* auto-refresh + new booking alert (every 60s) */
+(function(){var last=null,newCnt=null;
+function beep(){try{var c=new (window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator();o.connect(c.destination);o.frequency.value=880;o.start();setTimeout(function(){o.stop();c.close()},350)}catch(e){}}
+function notify(t){beep();try{if(window.Notification){if(Notification.permission==="granted")new Notification("New Booking",{body:t});else if(Notification.permission!=="denied")Notification.requestPermission().then(function(p){if(p==="granted")new Notification("New Booking",{body:t})})}}catch(e){}document.title="🔔 "+t}
+function tick(){if(!PW||document.getElementById("app").style.display==="none")return;
+ fetch(URL_,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"list",pw:PW})}).then(function(r){return r.json()}).then(function(j){if(!j||!j.ok)return;
+  var key=JSON.stringify(j.rows),n=j.rows.filter(function(r){return r.Status==="New"}).length;
+  if(last!==null&&key!==last){var act=document.activeElement&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);D.rows=j.rows;D.staff=j.staff||D.staff;if(!act)draw();
+   if(n>newCnt)notify((n-newCnt)+" new booking request(s)")}
+  last=key;newCnt=n}).catch(function(){})}
+setInterval(tick,60000);
+var te=document.getElementById("te");if(te)te.addEventListener("click",function(){api({action:"mailtest"},function(){})});
+var lo=document.getElementById("lo2");if(lo)lo.addEventListener("click",function(){try{localStorage.removeItem("bk_pw")}catch(e){}location.reload()});
+try{var sv=localStorage.getItem("bk_pw");if(sv){setTimeout(function(){document.getElementById("pw").value=sv;document.getElementById("go").click()},300)}}catch(e){}
+document.getElementById("go").addEventListener("click",function(){var v=document.getElementById("pw").value;setTimeout(function(){try{if(document.getElementById("app").style.display!=="none"&&v)localStorage.setItem("bk_pw",v)}catch(e){}},6000)});
+document.addEventListener("click",function(){document.title="Admin Dashboard"});
+var pw=document.getElementById("pw");if(pw)pw.addEventListener("keydown",function(e){if(e.key==="Enter")document.getElementById("go").click()});
+})();
+</script></body></html>

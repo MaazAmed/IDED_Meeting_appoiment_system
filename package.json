@@ -1,0 +1,43 @@
+{
+  "name": "booking-admin",
+  "version": "2.0.0",
+  "description": "Indus Delta / Edvisa Booking Admin",
+  "main": "main.js",
+  "author": "Indus Delta",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win nsis --x64"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8",
+    "resedit": "^3.1.0"
+  },
+  "build": {
+    "appId": "com.indusdelta.bookingadmin",
+    "productName": "Booking Admin",
+    "files": [
+      "main.js",
+      "app/**/*",
+      "icon.png"
+    ],
+    "afterPack": "afterPack.js",
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Booking Admin",
+      "installerIcon": "icon.ico",
+      "uninstallerIcon": "icon.ico",
+      "artifactName": "BookingAdmin-Setup.exe",
+      "runAfterFinish": true
+    }
+  }
+}
